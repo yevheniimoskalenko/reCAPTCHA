@@ -25,6 +25,7 @@
               ref="recaptcha"
               sitekey="6LealJMUAAAAAEtYcN5wjrIIPWNIZ4WeaEGVkff8"
               :load-recaptcha-script="true"
+              @expired="onCaptchaExpired"
               @verify="onCaptchaVerified"
             ></vue-recaptcha>
             <el-button @click="create">Create new Account</el-button>
@@ -72,6 +73,9 @@ export default {
       const token = { token: recaptchaToken }
       const verefy = await this.$store.dispatch('verefy', token)
       this.verefy = verefy.success
+    },
+    onCaptchaExpired() {
+      this.$refs.recaptcha.reset()
     }
   }
 }

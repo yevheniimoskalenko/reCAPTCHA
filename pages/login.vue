@@ -20,6 +20,14 @@
             ></el-input>
           </el-form-item>
           <el-form-item>
+            <vue-recaptcha
+              v-show="!verefy"
+              ref="recaptcha"
+              sitekey="6LealJMUAAAAAEtYcN5wjrIIPWNIZ4WeaEGVkff8"
+              :load-recaptcha-script="true"
+              @expired="onCaptchaExpired"
+              @verify="onCaptchaVerified"
+            ></vue-recaptcha>
             <el-button @click="login">sign in</el-button>
           </el-form-item>
         </el-form>
@@ -29,10 +37,13 @@
 </template>
 
 <script>
+import VueRecaptcha from 'vue-recaptcha'
+
 export default {
-  components: {},
+  components: { VueRecaptcha },
   data() {
     return {
+      verefy: '',
       data: { email: '', password: '' },
       rules: {
         email: [
@@ -58,6 +69,14 @@ export default {
           return false
         }
       })
+    },
+    async onCaptchaVerified(recaptchaToken) {
+      const token = { token: recaptchaToken }
+      const verefy = await this.$store.dispatch('verefy', token)
+      this.verefy = verefy.success
+    },
+    onCaptchaExpired() {
+      this.$refs.recaptcha.reset()
     }
   }
 }
