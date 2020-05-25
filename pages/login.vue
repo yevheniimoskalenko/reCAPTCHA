@@ -21,7 +21,6 @@
           </el-form-item>
           <el-form-item>
             <vue-recaptcha
-              v-show="!verefy"
               ref="recaptcha"
               sitekey="6LealJMUAAAAAEtYcN5wjrIIPWNIZ4WeaEGVkff8"
               :load-recaptcha-script="true"
