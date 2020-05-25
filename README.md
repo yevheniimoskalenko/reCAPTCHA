@@ -1,6 +1,6 @@
 # reCAPTCHA
 
-> captcha from google
+> captcha from google and firebase.auth node.js nuxt,vuex
 
 ## Build Setup
 
