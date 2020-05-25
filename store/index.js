@@ -27,5 +27,10 @@ export const actions = {
       commit('SetStatus', e)
       throw e
     }
+  },
+  async verefy({ commit }, payload) {
+    try {
+      return await this.$axios.$post('/api/verefy', payload)
+    } catch (e) {}
   }
 }
