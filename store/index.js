@@ -1,26 +1,31 @@
 export const state = () => ({
-  error: null
+  status: null
 })
 export const mutations = {
-  SetError(state, payload) {
-    state.error = payload
+  SetStatus(state, payload) {
+    state.status = payload
   }
 }
-export const getters = {}
+export const getters = {
+  status: (state) => state.status
+}
 export const actions = {
   async create({ commit }, payload) {
     try {
-      await this.$axios.$post('/api/create', payload)
+      const create = await this.$axios.$post('/api/create', payload)
+      commit('SetStatus', create)
     } catch (e) {
-      commit('SetError', e)
+      commit('SetStatus', e)
       throw e
     }
   },
-  async login({ comit }, payload) {
+  async login({ commit }, payload) {
     try {
-      await this.$axios.$post('/api/login', payload)
+      const log = await this.$axios.$post('/api/login', payload)
+      commit('SetStatus', log)
     } catch (e) {
-      comit('SetError', e)
+      commit('SetStatus', e)
+      throw e
     }
   }
 }
