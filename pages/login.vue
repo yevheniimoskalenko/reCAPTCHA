@@ -28,7 +28,7 @@
               @expired="onCaptchaExpired"
               @verify="onCaptchaVerified"
             ></vue-recaptcha>
-            <el-button @click="login">sign in</el-button>
+            <el-button :disabled="!verefy" @click="login">sign in</el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -43,7 +43,7 @@ export default {
   components: { VueRecaptcha },
   data() {
     return {
-      verefy: '',
+      verefy: false,
       data: { email: '', password: '' },
       rules: {
         email: [
@@ -57,7 +57,7 @@ export default {
   methods: {
     login() {
       this.$refs.form.validate(async (valid) => {
-        if (valid) {
+        if (valid && this.verefy === true) {
           try {
             const data = {
               email: this.data.email,

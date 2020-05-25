@@ -12,7 +12,7 @@
           <el-form-item label="email" prop="email">
             <el-input v-model="data.email"></el-input>
           </el-form-item>
-          <el-form-item label="password" prop="pass">
+          <el-form-item label="password" prop="password">
             <el-input
               v-model="data.password"
               type="password"
@@ -21,14 +21,16 @@
           </el-form-item>
           <el-form-item>
             <vue-recaptcha
-              v-show="!verefy"
               ref="recaptcha"
               sitekey="6LealJMUAAAAAEtYcN5wjrIIPWNIZ4WeaEGVkff8"
               :load-recaptcha-script="true"
               @expired="onCaptchaExpired"
               @verify="onCaptchaVerified"
             ></vue-recaptcha>
-            <el-button @click="create">Create new Account</el-button>
+
+            <el-button :disabled="!verefy" @click="create"
+              >Create new Account</el-button
+            >
           </el-form-item>
         </el-form>
       </el-col>
@@ -42,21 +44,21 @@ export default {
   components: { VueRecaptcha },
   data() {
     return {
-      verefy: '',
+      verefy: false,
       data: { email: '', password: '' },
       rules: {
         email: [
           { required: true, message: 'email is required' },
           { type: 'email', message: 'email is need valide' }
         ],
-        pass: [{ required: true, message: 'password is required' }]
+        password: [{ required: true, message: 'password is required' }]
       }
     }
   },
   methods: {
     create() {
       this.$refs.form.validate(async (valid) => {
-        if (valid) {
+        if (valid && this.verefy === true) {
           try {
             const data = {
               email: this.data.email,
