@@ -1,5 +1,5 @@
 # reCAPTCHA
-
+# ![recapthca](./assets/recapthca.png)
 > captcha from google and firebase.auth node.js nuxt,vuex
 
 ## Build Setup
