@@ -24,10 +24,11 @@
               ref="recaptcha"
               sitekey="6LealJMUAAAAAEtYcN5wjrIIPWNIZ4WeaEGVkff8"
               :load-recaptcha-script="true"
-              @expired="onCaptchaExpired"
+              @expired="onExpired"
               @verify="onCaptchaVerified"
             ></vue-recaptcha>
             <el-button :disabled="!verefy" @click="login">sign in</el-button>
+            <nuxt-link to="/">create account</nuxt-link>
           </el-form-item>
         </el-form>
       </el-col>
@@ -63,10 +64,19 @@ export default {
               password: this.data.password
             }
             await this.$store.dispatch('login', data)
-          } catch (e) {}
+          } catch (e) {
+          } finally {
+            this.resetRecaptcha()
+          }
         } else {
           return false
         }
+      })
+    },
+    onExpired() {
+      this.$message({
+        message: `Expired`,
+        type: `warning`
       })
     },
     async onCaptchaVerified(recaptchaToken) {
@@ -74,7 +84,7 @@ export default {
       const verefy = await this.$store.dispatch('verefy', token)
       this.verefy = verefy.success
     },
-    onCaptchaExpired() {
+    resetRecaptcha() {
       this.$refs.recaptcha.reset()
     }
   }

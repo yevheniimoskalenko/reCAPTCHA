@@ -24,13 +24,14 @@
               ref="recaptcha"
               sitekey="6LealJMUAAAAAEtYcN5wjrIIPWNIZ4WeaEGVkff8"
               :load-recaptcha-script="true"
-              @expired="onCaptchaExpired"
+              @expired="onExpired"
               @verify="onCaptchaVerified"
             ></vue-recaptcha>
 
             <el-button :disabled="!verefy" @click="create"
               >Create new Account</el-button
             >
+            <nuxt-link to="/login">login</nuxt-link>
           </el-form-item>
         </el-form>
       </el-col>
@@ -65,7 +66,10 @@ export default {
               password: this.data.password
             }
             await this.$store.dispatch('create', data)
-          } catch (e) {}
+          } catch (e) {
+          } finally {
+            this.onCaptchaExpired()
+          }
         } else {
           return false
         }
