@@ -75,6 +75,12 @@ export default {
         }
       })
     },
+    onExpired() {
+      this.$message({
+        message: `Expired`,
+        type: `warning`
+      })
+    },
     async onCaptchaVerified(recaptchaToken) {
       const token = { token: recaptchaToken }
       const verefy = await this.$store.dispatch('verefy', token)
